@@ -33,7 +33,7 @@ const drawVerToHorLine = (context : CanvasRenderingContext2D, i : number, size :
     context.stroke()
     context.beginPath()
     context.moveTo(0, size)
-    context.lineTo(size * scale, size)
+    context.lineTo(size * scale * (1 - 2 * (i % 2)), size)
     context.stroke()
     context.restore()
 }
@@ -42,13 +42,14 @@ const drawLTMRNode : Function = (context : CanvasRenderingContext2D, i : number,
     const sc2 : number = divideScale(scale, 1, 2)
     const gap : number = w / (nodes + 1)
     const size : number = gap / sizeFactor
-    const ySize : number = size / lines
+    const ySize : number = 2 * size / lines
     context.strokeStyle = foreColor
     context.lineCap = 'round'
     context.lineWidth = Math.min(w, h) / strokeFactor
     context.save()
     context.translate(gap * (i + 1), h / 2)
-    context.rotate(Math.PI/2 * ( 1 - sc2))
+    context.rotate(Math.PI/2 * ( 1 - sc1))
+    context.translate(0, -size)
     for (var j = 0; j < lines; j++) {
         drawVerToHorLine(context, j, ySize, divideScale(sc2, j, lines))
     }
