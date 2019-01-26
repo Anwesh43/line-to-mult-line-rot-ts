@@ -193,3 +193,24 @@ class LineToMultRot {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+    ltmr : LineToMultRot = new LineToMultRot()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.ltmr.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.ltmr.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.ltmr.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
